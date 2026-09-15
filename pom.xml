@@ -52,13 +52,7 @@
 
                     </argLine>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.aspectj</groupId>
-                        <artifactId>aspectjweaver</artifactId>
-                        <version>1.9.22.1</version>
-                    </dependency>
-                </dependencies>
+
             </plugin>
             <plugin>
                 <groupId>io.qameta.allure</groupId>

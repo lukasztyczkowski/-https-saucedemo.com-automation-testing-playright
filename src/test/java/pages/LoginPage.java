@@ -4,7 +4,6 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 
 public class LoginPage extends BasePage {
-    private final Page page;
 
     private final Locator username;
     private final Locator password;
@@ -13,7 +12,6 @@ public class LoginPage extends BasePage {
 
     public LoginPage(Page page) {
         super(page);
-        this.page = page;
         username = page.locator("#user-name");
         password = page.locator("#password");
         loginButton= page.locator("#login-button");
