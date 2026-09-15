@@ -25,7 +25,12 @@ jobs:
           cache: maven
 
       - name: Run Maven Tests
-        run: mvn clean test
+        run: |
+          mvn clean test
+          echo "=== SPRAWDZENIE CO WYGENEROWAŁ PROJEKT ==="
+          ls -la
+          ls -la target/ || true
+
         continue-on-error: true # Testy mogą paść, ale raport i tak chcemy wygenerować
 
       - name: Load Allure history
