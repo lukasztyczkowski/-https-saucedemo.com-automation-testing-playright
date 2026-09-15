@@ -23,35 +23,21 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
           cache: maven
+
       - name: Install Playwright Browsers
         run: mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install --with-deps"
 
-
       - name: Run Maven Tests
+        run: mvn clean test
+        continue-on-error: true
+
+      - name: Install Allure CLI
         run: |
-          mvn clean test
-          echo "=== SPRAWDZENIE CO WYGENEROWAŁ PROJEKT ==="
-          ls -la
-          ls -la target/ || true
+          npm install -g allure-commandline --save-dev
 
-        continue-on-error: true # Testy mogą paść, ale raport i tak chcemy wygenerować
-
-      - name: Load Allure history
-        uses: actions/checkout@v4
-        if: always()
-        with:
-          ref: gh-pages
-          path: gh-pages
-
-      - name: Build Allure Report
-        uses: simple-elf/allure-report-action@master
-        if: always()
-        with:
-          allure_results: target/allure-results
-          gh_pages: gh-pages-dir
-          allure_report: allure-report
-          allure_history: allure-history-output
-          keep_reports: 20
+      - name: Build Single-File Allure Report
+        run: |
+          allure generate target/allure-results --clean --single-file -o allure-report-html
 
       - name: Publish Allure Report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
@@ -59,4 +45,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: allure-history-output
+          publish_dir: allure-report-html
+
